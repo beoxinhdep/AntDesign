@@ -5,7 +5,15 @@ import "./index.css";
 
 
 function App() {
-  const { Option } = Select;
+  const onFinish = (values) => {
+    // console.log('Success:', values);
+    alert('Success');
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    // console.log('Failed:', errorInfo);
+    alert('Failed');
+  };
 
   return (
     <div className="App">\
@@ -17,8 +25,8 @@ function App() {
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 16 }}
       initialValues={{ remember: true }}
-      // onFinish={onFinish}
-      // onFinishFailed={onFinishFailed}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
     >
       <Form.Item
         label="Email"
@@ -26,27 +34,21 @@ function App() {
         rules={[
           {
             type: 'email',
-            message: 'The input is not valid E-mail!',
+            message: 'Please enter a valid email',
           },
           {
             required: true,
             message: 'Please input your E-mail!',
           },
-          // ({ getFieldValue }) => ({
-          //   validator(_, value) {
-          //     if (!value || getFieldValue('email') === 'hello@gmail.com') {
-          //       return Promise.resolve();
-          //     }
-          //     return Promise.reject(new Error('wrong'));
-          //   },
-          // }),
-          {
-                // pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                // pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/,
-                // pattern: /^(((?=.*[A-Za-z])|(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                pattern: /^([a-zA-Z0-9-_]{1,30}(?:[.]{0,1})[a-zA-Z0-9]{1,})@[a-z0-9]{2,}(\.[a-z0-9]{2,4})$/,
-                message: 'Please enter a valid email',
-            }
+          () => ({
+            validator(_, value) {
+              const pattern = /^([a-zA-Z0-9-_]{1,30}(?:[.]{0,1})[a-zA-Z0-9]{1,})@[a-z0-9]{2,}(\.[a-z0-9]{2,4})$/;
+              if (!value || pattern.test(value) ){
+                return Promise.resolve();
+              }
+              return Promise.reject(new Error('Please enter a valid email'));
+            },
+          })
         ]}
       >
         <Input />
