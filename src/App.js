@@ -38,7 +38,7 @@ function App() {
           },
           {
             required: true,
-            message: 'Please input your E-mail!',
+            message: 'Please input your E-maillllllllll!',
           },
           () => ({
             validator(_, value) {
